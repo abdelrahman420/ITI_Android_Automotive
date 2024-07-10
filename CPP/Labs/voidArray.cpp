@@ -1,94 +1,93 @@
 #include <iostream>
-enum class DataType 
+
+enum class Datatype
 {
     INT,
     DOUBLE,
     CHAR
 };
-class VPointerArray
+
+struct Data
 {
-    private:
-    void **arr;
+    void* ptr;
+    Datatype type;
+};
+
+class vPtrArray
+{
+private:
+    Data* dataArray;
     int size;
-    public:
-    VPointerArray(int S):size(S)
+
+public:
+    vPtrArray(int arraySize)
     {
-        arr = new void* [size];
+        size = arraySize;
+        dataArray = new Data[size];
     }
-    void SetValue(void *ptr,int indx)
+
+    ~vPtrArray()
     {
-        if(indx < size) {arr[indx] = ptr;}
+        delete[] dataArray;
     }
-    void* getValue(int indx)
+
+    void SetVal(void* ptrVal, int index, Datatype varType)
     {
-        if(indx < size) {return arr[indx];}
-        return nullptr;
+        dataArray[index].ptr = ptrVal;
+        dataArray[index].type = varType;
     }
-    int arrSize()
+
+    void* getVal(int index)
+    {
+        return dataArray[index].ptr;
+    }
+
+    Datatype getType(int index)
+    {
+        return dataArray[index].type;
+    }
+
+    int getSize(void)
     {
         return size;
     }
-    DataType getType(int indx)
-    {
-        DataType type;
-        if(typeid(arr[indx]) == typeid(int))
-        {
-            type = DataType::INT;
-        }
-        else if(typeid(arr[indx]) == typeid(char))
-        {
-            type = DataType::CHAR;
-        }
-        else if (typeid(arr[indx]) == typeid(double))
-        {
-            type = DataType::DOUBLE;
-        }
-        return type;
-    }
-    void printArr()
-    {
-        for(int i = 0;i<size;i++)
-        {
-            DataType type;
-            if(typeid(arr[i]) == typeid(int))
-            {
-                type = DataType::INT;
-                std::cout<<*((int *)arr[i]) <<" : int"<<std::endl;
-            }
-            else if(typeid(arr[i]) == typeid(char))
-            {
-                type = DataType::CHAR;
-                std::cout<<*((char *)arr[i])<<" : char";
-            }
-            else if (typeid(arr[i]) == typeid(double))
-            {
-                type = DataType::DOUBLE;
-                std::cout<<*((double *)arr[i])<<" : double";   
-            }
-        }
-        
-    }
-    ~VPointerArray()
-    {
-        delete[] arr;
-    }
 
+    void printArray()
+    {
+        for (int i = 0; i < size; i++)
+        {
+            switch (dataArray[i].type)
+            {
+            case Datatype::INT:
+                std::cout << "Value at index " << i << " : " << *static_cast<int*>(dataArray[i].ptr) << " its data type is : int" << std::endl;
+                break;
+            case Datatype::DOUBLE:
+                std::cout << "Value at index " << i << " : " << *static_cast<double*>(dataArray[i].ptr) << " its data type is : double" << std::endl;
+                break;
+            case Datatype::CHAR:
+                std::cout << "Value at index " << i << " : " << *static_cast<char*>(dataArray[i].ptr) << " its data type is : char" << std::endl;
+                break;
+            default:
+                std::cout << "Unknown data type at index " << i << std::endl;
+                break;
+            }
+        }
+    }
 };
 
 int main()
 {
-    int a = 5;
-    double b = 3.14;
-    char c = 'X';
+    vPtrArray arr(5);
 
-    VPointerArray arr(3);
+    int intValue = 10;
+    double doubleValue = 3.14;
+    char charValue = 'A';
 
-    arr.SetValue(&a, 0);
-    arr.SetValue(&b, 1);
-    arr.SetValue(&c, 2);
+    arr.SetVal(&intValue, 0, Datatype::INT);
+    arr.SetVal(&doubleValue, 1, Datatype::DOUBLE);
+    arr.SetVal(&charValue, 2, Datatype::CHAR);
 
-    arr.printArr();
+    arr.printArray();
+
+    return 0;
 }
-
-
-
