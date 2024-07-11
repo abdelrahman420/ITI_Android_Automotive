@@ -3,7 +3,7 @@
 ```bash
 source file_organizer.sh
 ```
-### 2- a messege appears on terminal to enter your directore "Enter source directory: "
+### 2- a messege appears on terminal to enter your directory "Enter source directory: "
 
 ### 3- Enter the source directory you want to organize 
 
