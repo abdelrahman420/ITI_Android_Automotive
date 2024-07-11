@@ -1,5 +1,6 @@
 #!/bin/bash
 
+<<<<<<< HEAD
 
 read -p "Enter source directory : " directory
 
@@ -11,6 +12,18 @@ for file in *; do
     if [ -f "$file" ]; then
         case "$file" in
             *.txt | *.doc | *.pdf)
+=======
+read -p "Enter source directory: " directory
+
+eval cd "$directory" 
+
+mkdir -p images documents others
+
+for file in *; do
+    if [ -f "$file" ]; then  
+        case "$file" in
+            *.txt|*.doc|*.pdf)
+>>>>>>> LinuxAdmin
                 mv "$file" documents/
                 ;;
             *.png|*.jpg|*.gif)
@@ -19,6 +32,12 @@ for file in *; do
             *)
                 mv "$file" others/
                 ;;
+<<<<<<< HEAD
             esac
     fi
 done
+=======
+        esac
+    fi
+done
+>>>>>>> LinuxAdmin
