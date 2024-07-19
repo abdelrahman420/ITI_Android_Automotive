@@ -1,0 +1,25 @@
+for BootOption in mmc nic NoOption; do
+	if test "$BootOption" = mmc; then
+		echo "Checking MMC..."
+		if fatload mmc 0:1 $kernel_addr_r Zimage; then
+			echo "zImage loaded successfully"
+			if fatload mmc 0:1 $fdt_addr_r file.dtb; then
+				echo "dtb file loaded successfully"
+				exit
+			else
+				echo "Failed to load dtb file from MMC."
+			fi
+		else
+			echo "Failed to load zImagee file from MMC."
+		fi
+	elif test "$BootOption" = nic; then
+		echo "Checking Network..."
+		if ping 192.168.1.10; then
+			echo "Network connection available,loading from network..."
+			exit
+		fi
+	elif test "$BootOption" = NoOption; then
+		echo "No option available"
+		exit
+	fi
+done
